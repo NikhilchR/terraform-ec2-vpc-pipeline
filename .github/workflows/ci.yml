@@ -1,0 +1,30 @@
+name: CI Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: fmt & validate
+        run: terraform fmt -check -recursive && terraform init && terraform validate && terraform plan
+
+      - name: Run tfsec
+        uses: triat/terraform-security-scan@v3
+
+      - name: Run Trivy config scan
+        run: trivy config .
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: .
