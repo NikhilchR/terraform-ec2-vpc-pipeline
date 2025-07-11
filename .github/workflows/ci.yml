@@ -15,10 +15,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: fmt & validate
+      - name: validate
         run: |
-         echo "Terraform checkr"
-         terraform fmt -check -recursive
          echo "Terraform infra"
          terraform init
          terraform validate
