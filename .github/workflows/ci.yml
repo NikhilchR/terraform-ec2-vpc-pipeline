@@ -17,7 +17,9 @@ jobs:
 
       - name: fmt & validate
         run: |
+         echo "Terraform checkr"
          terraform fmt -check -recursive
+         echo "Terraform infra"
          terraform init
          terraform validate
          terraform plan
