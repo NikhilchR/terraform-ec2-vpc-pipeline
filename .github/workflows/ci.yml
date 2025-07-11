@@ -15,13 +15,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: validate
-        run: |
-         echo "Terraform infra"
-         terraform init
-         terraform validate
-         terraform plan
-
       - name: Run tfsec
         uses: triat/terraform-security-scan@v3
 
@@ -32,3 +25,10 @@ jobs:
         uses: sonarsource/sonarqube-scan-action@master
         with:
           projectBaseDir: .
+
+      - name: validate
+        run: |
+         echo "Terraform infra"
+         terraform init
+         terraform validate
+         terraform plan
